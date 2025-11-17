@@ -276,3 +276,57 @@ def product_array_except_self(nums):
         suffix*=nums[i]
     return result
 print(product_array_except_self([1,2,4,6]))        
+
+def isValidSudoku(board):
+    rows=[set() for _ in range(9)]
+    columns=[set() for _ in range(9)]
+    boxes=[set() for _ in range(9)]
+    for r in range(9):
+        for c in range(9):
+            val=board[r][c]
+            if val==".":
+                continue
+            if val in rows[r]:
+                return False
+            rows[r].add(val)
+
+            if val in columns[c]:
+                return False
+            columns[c].add(val)
+            box_index=(r//3)*3 +(c//3)
+            if val in boxes[box_index]:
+                return False
+            boxes[box_index].add(val)
+    return True
+# 0 | 1 | 2
+# ---------
+# 3 | 4 | 5
+# ---------
+# 6 | 7 | 8
+# For a cell at (r, c):
+
+# Box index = (r // 3) * 3 + (c // 3)
+# Example:
+# If (r,c) = (4,5) → middle right box:
+
+# (4//3)=1
+# (5//3)=1
+
+# → 1*3 + 1 = 4 → box 4
+
+def longest_consecutive(nums):
+    num_set=set(nums)
+    longest=0
+    for num in num_set:
+        if num-1 not in num_set:
+            length=1
+            current=num
+        while current+1 in num_set:
+            current+=1
+            length+=1    
+            longest=max(longest,length)
+    return longest
+
+def is_palindrome(s):
+    cleaned="".join(c.lower() for c in s if c.isalnum())
+    return cleaned==cleaned[::-1]
