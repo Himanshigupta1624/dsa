@@ -26,7 +26,8 @@ def sum_array(arr):
     return total
 print(sum_array([1,2,3,4,5]))
 # Kth largest / Kth smallest
-import heapq 
+import heapq
+from multiprocessing import heap 
 def kth_largest(arr,k):
     if k <1 or k >(len(arr) ):
         return None
@@ -194,3 +195,84 @@ print(two_sum([1,2,3,4,5],9))
 # i=3, num=4 → store seen[4] = 3
 # i=4, num=5 → compute complement = 9 - 5 = 4. Now 4 in seen is True, and seen[4] yields 3. 
 # Returning (seen[4], 4) gives indices (3, 4) which point to values 4 and 5 that sum to 9.
+
+def group_anagrams(strs):
+    group={}
+    for word in strs:
+        key=tuple(sorted(word))
+        if key not in group:
+            group[key]=[]
+        group[key].append(word)
+    return list(group.values()) 
+print(group_anagrams(["eat","tea","tan","ate","nat","bat"]))
+# Time: O(n k log k) • Space: O(n k) where n is
+# Why tuple?
+# Because dictionary keys must be immutable
+# List cannot be a key, but tuple can
+# So this key helps group anagrams correctly.
+
+def top_k_frequent(nums,k):
+    freq={}
+    for n in nums:
+        freq[n]=freq.get(n,0)+1
+    import heapq
+    heap=[]
+    for num,count in freq.items():
+        heapq.heappush(heap,(-count,num))  
+    result=[]
+    for _ in range(k):
+        result.append(heapq.heappop(heap)[1])    
+    return result
+print(top_k_frequent([1,1,1,2,2,3],2))
+# Time: O(n log k) • Space: O(n)
+
+def top(nums,k):
+    freq={}
+    for n in nums:
+        freq[n]=freq.get(n,0)+1
+    heap=[]
+    for num,count in freq.items():
+        heapq.heappush(heap,(-count,num))
+        result=[]
+    for _ in range(k):
+        result.append(heapq.heappop(heap)[1])
+    return result
+print(top([1,1,1,2,2,3],2))
+
+
+# encode and decode
+def encode(strs):
+    encoded=""
+    for s in strs:
+        encoded+=str(len(s))+"#"+s
+    return encoded
+
+def decode(s):
+    res=[]
+    i=0
+    while i <len(s):
+        j=i
+        while s[j]!="#":
+            j+=1
+        length=int(s[i:j])
+        j+=1
+        word=s[j:j+length] # Advance i to j + length to read the next encoded item.
+        res.append(word)    
+        i=j+length
+    return res
+
+def product_array_except_self(nums):
+    n=len(nums)
+    result=[1]*n
+
+    prefix=1
+    for i in range(n):
+        result[i]=prefix
+        prefix*=nums[i]
+
+    suffix=1
+    for i in range(n-1,-1,-1):
+        result[i]*=suffix
+        suffix*=nums[i]
+    return result
+print(product_array_except_self([1,2,4,6]))        
