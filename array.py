@@ -358,4 +358,63 @@ def two_sum_sorted(number,target):
         else:
             right-=1
 
+def three_sum(nums):
+    nums.sort()
+    res=[]
+    for i in range(len(nums)):
+        if i >0 and nums[i]==nums[i-1]:
+            continue
+        l,r=i+1,len(nums)-1
+        while l<r:
+            total_nums=nums[i]+nums[l]+nums[r]
+            if total_nums==0:
+                res.append([nums[i],nums[l],nums[r]])
+                while l<r and nums[l]==nums[l+1]:
+                    l+=1
+                while l<r and nums[r]==nums[r-1]:
+                    r-=1
+                l+=1
+                r-=1
+            elif total_nums<0:
+                l+=1
+            else:
+                r-=1
+    return res
+print(three_sum([-1,0,1,2,-1,-4]))
+# Time: O(n^2) • Space: O(n)
 
+def maxArea(height):
+    l,r=0,len(height)-1
+    max_area=0
+    while l<r:
+        h=min(height[l],height[r])
+        area=h *(r-l)
+        if area>max_area:
+            max_area=area
+        if height[l]<height[r]:
+            l+=1
+        else:
+            r-=1
+    return max_area
+
+def trap(height):
+    left,right=0,len(height)-1
+    left_max,right_max=0,0
+    water=0
+    while left<right:
+        if height[left]<height[right]:
+            if height[left]>=left_max:
+                left_max=height[left]
+            else:
+                water+=left_max-height[left]
+            left+=1
+        else:
+            if height[right]>=right_max:
+                right_max=height[right]
+            else:
+                water+=right_max-height[right]
+            right-=1    
+    return water
+print(trap([0,1,0,2,1,0,1,3,2,1,2,1]))
+
+# Time: O(n) • Space: O(1)
