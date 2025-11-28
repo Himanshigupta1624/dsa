@@ -418,3 +418,68 @@ def trap(height):
 print(trap([0,1,0,2,1,0,1,3,2,1,2,1]))
 
 # Time: O(n) • Space: O(1)
+
+def max_profit(prices):
+    min_prices=float('inf')
+    max_profit=0
+    for price in prices: # track the lowest price best buying price
+        if price < min_prices:
+            min_prices=price
+        # check if selling today gives better profit    
+        profit=price-min_prices
+        max_profit=max(max_profit,profit)
+    return max_profit
+
+
+def lengthoflongestsubstring(s):
+    char_set=set()
+    left=0
+    longest=0
+    for right in range(len(s)):
+        while s[right] in char_set:
+            char_set.remove(s[left])
+            left+=1
+        char_set.add(s[right])
+        longest=max(longest,right-left+1)
+    return longest
+
+def charcterReplacement(s,k):
+    count={}
+    left=0
+    max_freq=0
+    result=0
+    for right in range(len(s)):
+        char=s[right]
+        count[char]=count.get(char,0)+1
+        # Increase its count in the dictionary.
+        # count.get(char, 0) → return existing count OR 0
+        # +1 → add 1 more occurrence
+        max_freq=max(max_freq,count[char])
+        while (right-left+1)-max_freq>k:
+            count[s[left]]-=1
+            left+=1
+        result=max(result,right-left+1)
+    return result
+# right - left + 1 = window size
+# maxFreq = number of already matching characters
+# Difference = characters we need to replace
+# If replacements needed > k → window is invalid → shrink it.
+
+def checkinclusion(s1,s2):
+    if len(s1)>len(s2):
+        return False
+    s1_count=[0]*26
+    window_count=[0]*26
+    for c in s1:
+        s1_count[ord(c)-ord('a')]+=1
+    left=0
+    for right in range(len(s2)):
+        window_count[ord(s2[right])-ord('a')]+=1
+        if right-left+1>len(s1):
+            window_count[ord(s2[left])-ord('a')]-=1
+            left+=1
+        if window_count==s1_count:
+            return True        
+    return False
+print(checkinclusion("ab","eidbaooo"))
+# Time: O(n) • Space: O(1)
