@@ -64,3 +64,38 @@ def sum_of_squares(n):
         s+=n%10
         n//=10
     return s
+
+def second_largest(arr):
+    first=second=float('-inf')
+    for x in arr:
+        if x>first:
+            second,first=first,x
+        elif first>x>second:
+            second=x
+    return second
+
+def merge(a,b):
+    i=j=0
+    result=[]
+    while i <len(a) and j<len(b):
+        if a[i]<b[j]:
+            result.append(a[i])
+            i+=1
+        else:
+            result.append(b[j])
+            j+=1
+    return result + a[i:] +b[j:]   
+
+def flatten(lst):
+    result=[]
+    for x in lst:
+        if isinstance(x,list):
+            result.extend(flatten(x))
+        else:
+            result.append(x)
+    return result        
+# isinstance(obj, Class) tests whether obj is an instance of Class or of a subclass of Class.
+# isinstance(x, list) returns True for actual list objects (and subclasses), False for tuples, strings, numbers, etc.
+# Reason to prefer isinstance over type(x) == list: isinstance supports subclasses and is more flexible. type(x) == list is a strict type equality and will reject subclass instances.
+# If you want to treat other sequence types (e.g., tuple) as flattenable, check isinstance(x, (list, tuple)) or use 
+           
