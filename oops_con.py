@@ -234,4 +234,74 @@ ice_cream_dict={'name':'vanilla','price':5,'size':'medium'}
 for key, value in ice_cream_dict.items():
     print(f"{key} -> {value}")
 
+
+# polymorphism example
+class Shape:
+    def area(self):
+        pass
+class Circle(Shape):
+    def __init__(self,r):
+        self.r=r
+    def area(self):
+        return 3.14*self.r*self.r
+
+class Square(Shape):
+    def __init__(self,a):
+        self.a=a
+    def area(self):
+        return self.a*self.a
+    
+# Infinite Fibonacci generator
+# def inifinte_fibo():
+#     a,b=0,1
+#     while True:
+#         yield a
+#         a,b=b,a+b
+
+# students=sorted(students ,key=lambda x:x.marks)
+
+class Student:
+    def __init__(self,marks):
+        self.marks=marks
+
+    def __lt__(self,other):
+        return self.marks < other.marks   
+        
+# Lru cache
+from collections import OrderedDict
+
+class LRU:
+    def __init__(self,cap):
+        self.cap=cap
+        self.cache=OrderedDict()
+
+    def get(self,key):
+        if key in self.cache:
+            self.cache.move_to_end(key)
+            return self.cache[key]
+        return -1
+    def put(self,key,val):
+        self.cache[key]=val
+        self.cache.move_to_end(key)
+        if len(self.cache) > self.cap:
+            self.cache.popitem(last=False)   
+
+# Create cache: c = LRU(2) (capacity 2).
+# c.put('a', 1) → cache order: ['a'].
+# c.put('b', 2) → order: ['a','b'].
+# c.get('a') → returns 1, moves 'a' to end → order: ['b','a'].
+# c.put('c', 3) → insert 'c', now 3 items so pop oldest ('b') → final order: ['a','c']. 'b' evicted.
+
+class Singleton:
+    _instance=None
+
+    def __new__(cls):
+        if not cls._instance:
+            cls._instance=super(Singleton,cls).__new__(cls)
+        return cls._instance
+        
+
+           
+        
+
         
