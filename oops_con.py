@@ -230,5 +230,8 @@ class Bank:
         else:
             self.balance-=amt  
 
+ice_cream_dict={'name':'vanilla','price':5,'size':'medium'}
+for key, value in ice_cream_dict.items():
+    print(f"{key} -> {value}")
 
         
